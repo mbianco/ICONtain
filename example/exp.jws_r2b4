@@ -29,7 +29,7 @@ export EXPNAME="nh35_tri_jws_exclaim_r2b4"
 
 # how to start the icon model
 # ---------------------------
-export START="mpirun -np $mpi_total_procs --allow-run-as-root \$(which icon)"
+export START="mpirun -np $mpi_total_procs --allow-run-as-root $(which icon)"
 
 export CRAY_CUDA_MPS=1
 export MPICH_GPU_SUPPORT_ENABLED=1
