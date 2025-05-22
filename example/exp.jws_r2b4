@@ -30,7 +30,6 @@ export EXPNAME="nh35_tri_jws_exclaim_r2b4"
 # how to start the icon model
 # ---------------------------
 export START="mpirun -np $mpi_total_procs --allow-run-as-root \$(which icon)"
-export MODEL=$(which icon)
 
 export CRAY_CUDA_MPS=1
 export MPICH_GPU_SUPPORT_ENABLED=1
@@ -182,19 +181,6 @@ cat > ${atmo_namelist} << EOF
 EOF
 
 #-----------------------------------------------------------------------------
-# set up the model lists if they do not exist
-# this works for single model runs
-# for coupled runs the lists should be declared explicilty
-
-#-----------------------------------------------------------------------------
-
-
-#-----------------------------------------------------------------------------
-# set some default values and derive some run parameteres
-restart=${restart:=".false."}
-
-
-#-----------------------------------------------------------------------------
 # create master_namelist
 master_namelist=icon_master.namelist
 
@@ -299,21 +285,5 @@ EOF
 done
 fi
 
-#
-# configure START_MODEL_function
-#
-# TODO: be less atmospheric centric, i.e. do not assume that atmosphere is always component 1
-ICON_COMPONENT1_VH_procs=$(( ${num_restart_procs:-0} + ${num_io_procs:-0} + ${num_prefetch_proc:-0} + ${num_io_procs_radar:-0}))
-ICON_COMPONENT2_VE_procs=0 # Note: probably one has to substrace $proc0_shift here if proc0_shift is used for the second component.
-ICON_COMPONENT2_VH_procs=0 # TODO: use information about coupled processes to fill this
-
-#
-# start experiment
-#
-
-# Combine START and MODEL if START_MODEL is not already set.
-# START_MODEL is used to ease the execution of a machine that uses a complex
-# mpirun command with multiple binaries
-echo START_MODEL="$START"
-
-
+# Return the command to launch the simulation
+echo $START
