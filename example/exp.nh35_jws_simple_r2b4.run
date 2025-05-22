@@ -1,5 +1,5 @@
 #! /bin/bash
-set -x
+set +x
 ulimit -s unlimited
 
 export OMP_NUM_THREADS=1
@@ -29,10 +29,8 @@ export EXPNAME="nh35_tri_jws_exclaim_r2b4"
 
 # how to start the icon model
 # ---------------------------
-export START="srun -n $mpi_total_procs --ntasks-per-node $mpi_procs_pernode --threads-per-core=1 --distribution=cyclic ./alps_mch_gpu.sh ${1-}"
+export START="mpirun -np $mpi_total_procs --allow-run-as-root \$(which icon)"
 export MODEL=$(which icon)
-
-set | grep SLURM
 
 export CRAY_CUDA_MPS=1
 export MPICH_GPU_SUPPORT_ENABLED=1
@@ -266,14 +264,6 @@ add_component_to_master_namelist()
 /
 EOF
 
-  #-----------
-  #get namelist
-  if [ -f ./$model_namelist_filename ] ; then
-    mv -f ./$model_namelist_filename ${EXPDIR}
-    check_error $? "mv -f ${RUNSCRIPTDIR}/$model_namelist_filename ${EXPDIR}"
-  else
-    check_error 1 "${RUNSCRIPTDIR}/$model_namelist_filename does not exist"
-  fi
 }
 #-----------------------------------------------------------------------------
 
@@ -342,16 +332,6 @@ done
 fi
 
 #
-#  get model
-#
-ls -l ${MODEL}
-check_error $? "${MODEL} does not exist?"
-#
-ldd ${MODEL}
-#
-#-----------------------------------------------------------------------------
-
-#
 # configure START_MODEL_function
 #
 # TODO: be less atmospheric centric, i.e. do not assume that atmosphere is always component 1
@@ -366,6 +346,6 @@ ICON_COMPONENT2_VH_procs=0 # TODO: use information about coupled processes to fi
 # Combine START and MODEL if START_MODEL is not already set.
 # START_MODEL is used to ease the execution of a machine that uses a complex
 # mpirun command with multiple binaries
-echo START_MODEL="${START_MODEL:=$START $DIAGNOSTIC_TOOL $DIAGNOSTIC_TOOL_PARAMS $MODEL}"
+echo START_MODEL="$START"
 
 
