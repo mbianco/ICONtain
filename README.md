@@ -3,9 +3,15 @@ Icon container and example
 
 ## After you built the container
 
+### Run out of the box:
+
+    docker run -v $PATH_TO_ICONtain/:/mnt/data <containername>
+
+### Run interactively
+
 Run the container
 
-    docker run -it -v $PATH_TO_ICONtain/:/mnt/data  containername bash
+    docker run -it -it --entrypoint /bin/bash -v $PATH_TO_ICONtain/:/mnt/data  <containername>
 
 Within the container
 
