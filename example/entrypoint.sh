@@ -1,5 +1,5 @@
 
-echo "Sourcing sack environment (might take few seconds)"
+echo "Sourcing spack environment (might take few seconds)"
 . /opt/spack/share/spack/setup-env.sh
 
 echo "spack-loading icon (might take few seconds)"
