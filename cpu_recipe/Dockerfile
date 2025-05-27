@@ -32,7 +32,7 @@ RUN . /opt/spack/share/spack/setup-env.sh && \
 
 ENV PATH=$PATH:/usr/bin:/bin:/sbin
 
-COPY ../example/entrypoint.sh entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
 

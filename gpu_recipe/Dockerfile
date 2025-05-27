@@ -21,22 +21,31 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/spack/spack.git /opt/spack
 
 
+# RUN . /opt/spack/share/spack/setup-env.sh && \
+#     spack install cuda@12.9.0 && \
+#     spack clean -a
+
 RUN . /opt/spack/share/spack/setup-env.sh && \
     spack install nvhpc@25.1 && \
     spack clean -a
 
 RUN . /opt/spack/share/spack/setup-env.sh && \
-    spack install openmpi +cuda && \
+    spack install netcdf-fortran && \
     spack clean -a
+    
+# RUN . /opt/spack/share/spack/setup-env.sh && \
+#     spack install openmpi +cuda && \
+#     spack clean -a
 
 RUN . /opt/spack/share/spack/setup-env.sh && \
-    spack install icon@nvhpc && \
+    spack load nvhpc && \
+    spack install icon -ocean -rte-rrtmgp +ecrad -aes +nwp && \
     spack clean -a
 
 
 ENV PATH=$PATH:/usr/bin:/bin:/sbin
 
-COPY ../example/entrypoint.sh entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
 
