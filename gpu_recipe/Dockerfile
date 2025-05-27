@@ -22,17 +22,21 @@ RUN git clone https://github.com/spack/spack.git /opt/spack
 
 
 RUN . /opt/spack/share/spack/setup-env.sh && \
-    spack install openmpi && \
+    spack install nvhpc@25.1 && \
     spack clean -a
 
 RUN . /opt/spack/share/spack/setup-env.sh && \
-    spack install icon && \
+    spack install openmpi +cuda && \
+    spack clean -a
+
+RUN . /opt/spack/share/spack/setup-env.sh && \
+    spack install icon@nvhpc && \
     spack clean -a
 
 
 ENV PATH=$PATH:/usr/bin:/bin:/sbin
 
-COPY example/entrypoint.sh entrypoint.sh
+COPY ../example/entrypoint.sh entrypoint.sh
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
 
