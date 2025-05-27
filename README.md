@@ -3,14 +3,15 @@ Icon container and example
 
 ## Build the container
 
-    cd $PATH_TO_ICONtain/
-    docker build . -t icontest:v1
+    cd $PATH_TO_ICONtain/[cpu|gpu]_recipe
+    docker build . -t icon[cpu|gpu]:v1
     
 ## After you built the container
 
 ### Run out of the box:
 
-    docker run -v $PATH_TO_ICONtain/:/mnt/data icontest:v1
+    cd $PATH_TO_ICONtain/
+    docker run -v $PATH_TO_ICONtain/:/mnt/data icon[cpu|gpu]:v1
 
 ### Run interactively
 
