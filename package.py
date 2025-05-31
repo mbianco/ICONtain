@@ -473,9 +473,10 @@ class AutotoolsBuilder(AnyBuilder, autotools.AutotoolsBuilder):
                     extra_libs.append(hdf["rpc"].libs)
                 extra_libs.append(hdf["zlib-api"].libs)
 
-        print(f'CAZZO {self.spec["hdf5"].headers.include_flags=}')
-        config_args.append("CFLAGS={0}".format(self.spec["hdf5"].headers.include_flags))
-        config_args.append("CPPFLAGS={0}".format(self.spec["hdf5"].headers.include_flags))
+        # config_args.append("CFLAGS={0}".format(self.spec["hdf5"].headers.include_flags))
+        # config_args.append("CPPFLAGS={0}".format(self.spec["hdf5"].headers.include_flags))
+        config_args.append("CFLAGS={0} {1}".format((self.spec["hdf5"].headers.include_flags), self.spec["c-blosc"].headers.include_flags))
+        config_args.append("CPPFLAGS={0} {1}".format((self.spec["hdf5"].headers.include_flags), self.spec["c-blosc"].headers.include_flags))
 
         hdf5 = self.spec["hdf5:hl"]
         lib_search_dirs.extend(hdf5.libs.directories)
